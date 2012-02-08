@@ -54,12 +54,28 @@ def uniqueword(word, friends)
     return true
 end
 
+#to check if word is not already in the queue
+def uniqueinqueue(word, queue)
+	queue_dup = Queue.new
+	decision = true
+	while queue.empty?
+	word1 = queue.pop
+		if word == word1		#duplicate found
+			decision = false
+		end
+		queue_dup << word1
+	end
+	return decision
+end
+
 #to find friends of a word
 def findfriends(inputword, allwords, queue, friends)
     for i in 0...allwords.length
         if isfriend(inputword, allwords[i])
             if uniqueword(allwords[i], friends)
-                queue << friends[i]
+                if uniqueinqueue(allwords[i], queue)
+			queue << friends[i]
+		end
             end
         end
     end
@@ -89,7 +105,7 @@ while(queue.length != 0)
     	friends << pop_word_from_queue
     end
 end
-
+friends.uniq!
 for i in 0...friends.length
 	print(friends[i])
 end
